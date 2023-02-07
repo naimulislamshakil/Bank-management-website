@@ -1,7 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 const index = () => {
+	// eslint-disable-next-line react-hooks/rules-of-hooks
+	const [Visibility, setVisibility] = useState(true);
+	// eslint-disable-next-line react-hooks/rules-of-hooks
+	const [reVisibility, setReVisibility] = useState(true);
 	return (
 		<>
 			<div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -29,21 +35,47 @@ const index = () => {
 									className="block w-full px-4 py-2 mt-2 text-purple-700 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
 								/>
 							</div>
-							<div className="mt-4">
-								<label className="block">Password</label>
+							<div className="relative w-full mb-3">
+								<label
+									htmlFor="password"
+									className="block text-sm font-semibold text-gray-800"
+								>
+									Password
+								</label>
 								<input
-									type="password"
-									placeholder="Password"
+									type={Visibility ? 'password' : 'text'}
+									name="password"
 									className="block w-full px-4 py-2 mt-2 text-purple-700 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
 								/>
+								<div
+									onClick={() => setVisibility(!Visibility)}
+									className=" absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 "
+								>
+									<p className="mt-6">
+										{Visibility ? <VisibilityOffIcon /> : <VisibilityIcon />}
+									</p>
+								</div>
 							</div>
-							<div className="mt-4">
-								<label className="block">Confirm Password</label>
+							<div className="relative w-full mb-3">
+								<label
+									htmlFor="password"
+									className="block text-sm font-semibold text-gray-800"
+								>
+									Re-Type Password
+								</label>
 								<input
-									type="password"
-									placeholder="Password"
+									type={reVisibility ? 'password' : 'text'}
+									name="password"
 									className="block w-full px-4 py-2 mt-2 text-purple-700 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
 								/>
+								<div
+									onClick={() => setReVisibility(!reVisibility)}
+									className=" absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 "
+								>
+									<p className="mt-6">
+										{reVisibility ? <VisibilityOffIcon /> : <VisibilityIcon />}
+									</p>
+								</div>
 							</div>
 
 							<div className="mt-6">
