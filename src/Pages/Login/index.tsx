@@ -3,11 +3,29 @@ import { Link } from 'react-router-dom';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import '../../Styles/common.css';
+import { useFormik } from 'formik';
+import { singInSchema } from '../../Config/Schema/SingIn';
+
+const initialFromValues = {
+	email: '',
+	password: '',
+};
 
 const index = () => {
 	// eslint-disable-next-line react-hooks/rules-of-hooks
 	const [Visibility, setVisibility] = useState(true);
-	console.log(Visibility);
+
+	// from validation using formik
+
+	const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
+		// eslint-disable-next-line react-hooks/rules-of-hooks
+		useFormik({
+			initialValues: initialFromValues,
+			validationSchema: singInSchema,
+			onSubmit: (values) => {
+				console.log(values);
+			},
+		});
 	return (
 		<>
 			<div className="relative flex flex-col justify-center min-h-screen overflow-hidden">
@@ -15,7 +33,7 @@ const index = () => {
 					<h1 className="text-3xl font-semibold text-center text-purple-700 uppercase">
 						Sign in
 					</h1>
-					<form className="mt-6">
+					<form className="mt-6" onSubmit={handleSubmit}>
 						<div className="mb-2">
 							<label
 								htmlFor="email"
@@ -26,7 +44,16 @@ const index = () => {
 							<input
 								type="email"
 								className="block w-full px-4 py-2 mt-2 text-purple-700 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
+								name="email"
+								value={values.email}
+								onChange={handleChange}
+								onBlur={handleBlur}
 							/>
+							{errors.email && touched.email ? (
+								<p className="uppercase text-red-600 mt-1 text-sm">
+									{errors.email}
+								</p>
+							) : null}
 						</div>
 						<div className="relative w-full mb-3">
 							<label
@@ -39,6 +66,9 @@ const index = () => {
 								type={Visibility ? 'password' : 'text'}
 								name="password"
 								className="block w-full px-4 py-2 mt-2 text-purple-700 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
+								value={values.password}
+								onChange={handleChange}
+								onBlur={handleBlur}
 							/>
 							<div
 								onClick={() => setVisibility(!Visibility)}
@@ -48,6 +78,11 @@ const index = () => {
 									{Visibility ? <VisibilityOffIcon /> : <VisibilityIcon />}
 								</p>
 							</div>
+							{errors.password && touched.password ? (
+								<p className="uppercase text-red-600 mt-1 text-sm">
+									{errors.password}
+								</p>
+							) : null}
 						</div>
 						<Link to="/" className="text-xs text-purple-600 hover:underline">
 							Forget Password?
