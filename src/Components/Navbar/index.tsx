@@ -59,8 +59,8 @@ const index = () => {
 							}`}
 						>
 							<ul className="items-center justify-center space-y-8 md:flex md:space-x-6 md:space-y-0">
-								{Navbar_Item.map((item) => (
-									<li className="text-gray-600 hover:text-blue-600">
+								{Navbar_Item.map((item, index) => (
+									<li key={index} className="text-gray-600 hover:text-blue-600">
 										<Link to={item.route}>{item.text}</Link>
 									</li>
 								))}

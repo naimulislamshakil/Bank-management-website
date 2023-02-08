@@ -2,18 +2,40 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { useFormik } from 'formik';
+import { registerSchema } from '../../Config/Schema/Register';
+
+const initialFromValues = {
+	name: '',
+	email: '',
+	password: '',
+	repassword: '',
+};
 
 const index = () => {
 	// eslint-disable-next-line react-hooks/rules-of-hooks
 	const [Visibility, setVisibility] = useState(true);
 	// eslint-disable-next-line react-hooks/rules-of-hooks
 	const [reVisibility, setReVisibility] = useState(true);
+
+	const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
+		// eslint-disable-next-line react-hooks/rules-of-hooks
+		useFormik({
+			initialValues: initialFromValues,
+			validationSchema: registerSchema,
+			onSubmit: (values) => {
+				console.log(values);
+			},
+		});
+
 	return (
 		<>
-			<div className="flex items-center justify-center min-h-screen bg-gray-100">
+			<div className="flex items-center justify-center min-h-screen">
 				<div className="px-8 py-6 mx-4 mt-4 text-left bg-white shadow-lg lg:max-w-xl w-full">
-					<h3 className="text-2xl font-bold text-center">Join us</h3>
-					<form action="">
+					<h3 className="text-3xl font-semibold text-center text-purple-700 uppercase">
+						REGISTER
+					</h3>
+					<form onSubmit={handleSubmit}>
 						<div className="mt-4">
 							<div>
 								<label className="block" htmlFor="Name">
@@ -21,9 +43,17 @@ const index = () => {
 								</label>
 								<input
 									type="text"
-									placeholder="Name"
+									name="name"
 									className="block w-full px-4 py-2 mt-2 text-purple-700 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
+									value={values.name}
+									onChange={handleChange}
+									onBlur={handleBlur}
 								/>
+								{errors.name && touched.name ? (
+									<p className="uppercase text-red-600 mt-1 text-sm">
+										{errors.name}
+									</p>
+								) : null}
 							</div>
 							<div className="mt-4">
 								<label className="block" htmlFor="email">
@@ -31,9 +61,17 @@ const index = () => {
 								</label>
 								<input
 									type="text"
-									placeholder="Email"
+									name="email"
 									className="block w-full px-4 py-2 mt-2 text-purple-700 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
+									value={values.email}
+									onChange={handleChange}
+									onBlur={handleBlur}
 								/>
+								{errors.email && touched.email ? (
+									<p className="uppercase text-red-600 mt-1 text-sm">
+										{errors.email}
+									</p>
+								) : null}
 							</div>
 							<div className="relative w-full mb-3">
 								<label
@@ -46,7 +84,11 @@ const index = () => {
 									type={Visibility ? 'password' : 'text'}
 									name="password"
 									className="block w-full px-4 py-2 mt-2 text-purple-700 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
+									value={values.password}
+									onChange={handleChange}
+									onBlur={handleBlur}
 								/>
+
 								<div
 									onClick={() => setVisibility(!Visibility)}
 									className=" absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 "
@@ -55,6 +97,11 @@ const index = () => {
 										{Visibility ? <VisibilityOffIcon /> : <VisibilityIcon />}
 									</p>
 								</div>
+								{errors.password && touched.password ? (
+									<p className="uppercase text-red-600 mt-1 text-sm">
+										{errors.password}
+									</p>
+								) : null}
 							</div>
 							<div className="relative w-full mb-3">
 								<label
@@ -65,9 +112,13 @@ const index = () => {
 								</label>
 								<input
 									type={reVisibility ? 'password' : 'text'}
-									name="password"
+									name="repassword"
 									className="block w-full px-4 py-2 mt-2 text-purple-700 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
+									value={values.repassword}
+									onChange={handleChange}
+									onBlur={handleBlur}
 								/>
+
 								<div
 									onClick={() => setReVisibility(!reVisibility)}
 									className=" absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 "
@@ -76,6 +127,11 @@ const index = () => {
 										{reVisibility ? <VisibilityOffIcon /> : <VisibilityIcon />}
 									</p>
 								</div>
+								{errors.repassword && touched.repassword ? (
+									<p className="uppercase text-red-600 mt-1 text-sm">
+										{errors.repassword}
+									</p>
+								) : null}
 							</div>
 
 							<div className="mt-6">
