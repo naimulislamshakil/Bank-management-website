@@ -10,15 +10,23 @@ require('dotenv').config();
 app.use(cors());
 app.use(express.json());
 
+// get route
+const RegisterRoute = require('./Routes/v1/Register.route');
+
 // connect mongoose
 mongoose
-	.connect('mongodb://localhost:27017')
+	.connect('mongodb://localhost:27017/', {
+		useNewUrlParser: 'true',
+	})
 	.then((res) => console.log('Database Already Added Successfull!'.yellow.bold))
 	.catch((err) => console.log(err));
 
 app.get('/', (req, res) => {
 	res.send(`<h1>How are you?</h1>`);
 });
+
+// call route
+app.use('/api/v1/register', RegisterRoute);
 
 app.use('*', (req, res) => {
 	const { baseUrl } = req;
