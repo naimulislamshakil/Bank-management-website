@@ -67,3 +67,17 @@ exports.logInUserCollaction = async (req, res) => {
 		});
 	}
 };
+
+exports.userPersistence = async (req, res) => {
+	try {
+		const token = req.user;
+		res.status(200).json({
+			status: 'success',
+		});
+	} catch (error) {
+		res.status(200).json({
+			status: 'Failed',
+			message: 'Pleace LogIn Again.',
+		});
+	}
+};
