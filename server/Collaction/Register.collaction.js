@@ -70,9 +70,15 @@ exports.logInUserCollaction = async (req, res) => {
 
 exports.userPersistence = async (req, res) => {
 	try {
-		const token = req.user;
+		const { email } = req.user;
+
+		const user = await RegisterService.userPersistenceService(email);
+
+		const { password, ...other } = user.toObject();
 		res.status(200).json({
 			status: 'success',
+			message: 'Valide User.',
+			user: other,
 		});
 	} catch (error) {
 		res.status(200).json({
