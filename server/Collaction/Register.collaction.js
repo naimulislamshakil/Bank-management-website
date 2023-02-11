@@ -1,5 +1,6 @@
 const RegisterService = require('../Service/Register.service');
 const bcrypt = require('bcrypt');
+const { generateToken } = require('../Utils/GenerateJWT');
 
 exports.createUserCollaction = async (req, res) => {
 	try {
@@ -48,10 +49,16 @@ exports.logInUserCollaction = async (req, res) => {
 				message: 'Your account is not active yet.',
 			});
 		}
+
+		// generate a token
+		const token = generateToken(user);
+
+		// send user and token
 		res.status(200).json({
 			status: 'Success',
 			message: 'User Logins Successfully.',
 			user,
+			token,
 		});
 	} catch (error) {
 		res.status(200).json({
