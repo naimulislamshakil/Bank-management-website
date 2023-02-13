@@ -1,8 +1,13 @@
 import {
 	CreateAUserDispatchType,
+	LoginDispatchType,
+	Login_User,
 	Register_User,
 	USER_FAIL,
 	USER_LOADING,
+	USER_LOGIN_FAIL,
+	USER_LOGIN_LOADING,
+	USER_LOGIN_SUCCESS,
 	USER_SUCCESS,
 } from '../Action/actionType';
 
@@ -34,6 +39,45 @@ export const CreateAUserReducer = (
 				error: action.payload,
 			};
 		case USER_SUCCESS:
+			return {
+				loading: false,
+				error: null,
+				message: action.payload,
+			};
+
+		default:
+			return state;
+	}
+};
+
+// LOGIN USER
+interface DefaultStateLogin {
+	loading: boolean;
+	message?: Login_User;
+	error: null | any;
+}
+
+const initialStateLogin: DefaultStateLogin = {
+	loading: false,
+	error: null,
+};
+
+export const LoginReducer = (
+	state: DefaultStateLogin = initialStateLogin,
+	action: LoginDispatchType
+): DefaultStateLogin => {
+	switch (action.type) {
+		case USER_LOGIN_LOADING:
+			return {
+				loading: true,
+				error: null,
+			};
+		case USER_LOGIN_FAIL:
+			return {
+				loading: false,
+				error: action.payload,
+			};
+		case USER_LOGIN_SUCCESS:
 			return {
 				loading: false,
 				error: null,
