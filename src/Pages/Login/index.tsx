@@ -55,6 +55,7 @@ const index = () => {
 								</p>
 							) : null}
 						</div>
+						{/*  */}
 						<div className="relative w-full mb-3">
 							<label
 								htmlFor="email"
