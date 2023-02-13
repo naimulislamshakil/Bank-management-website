@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { useFormik } from 'formik';
@@ -7,6 +7,9 @@ import { registerSchema } from '../../Config/Schema/Register';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootStore } from '../../Redux/store';
 import { CraeteAUserAction } from '../../Redux/Action';
+import errorMessage from '../../Utils/errorMessage';
+import { toast } from 'react-toastify';
+import successMessage from '../../Utils/successMessage';
 
 const initialFromValues = {
 	name: '',
@@ -22,6 +25,13 @@ const index = () => {
 	const { loading, error, message } = useSelector(
 		(state: RootStore) => state.CreateAUsers
 	);
+	// eslint-disable-next-line react-hooks/rules-of-hooks
+	const navigator = useNavigate();
+
+	// eslint-disable-next-line @typescript-eslint/no-unused-expressions, react-hooks/rules-of-hooks
+	// useEffect(() => {
+
+	// }, [error, message]);
 
 	// eslint-disable-next-line react-hooks/rules-of-hooks
 	const [Visibility, setVisibility] = useState(true);
@@ -42,6 +52,15 @@ const index = () => {
 					};
 
 					dispatch(CraeteAUserAction(user));
+
+					if (error) {
+						errorMessage(error);
+					}
+
+					if (message) {
+						navigator('/');
+						successMessage(message.message);
+					}
 				}
 			},
 		});
