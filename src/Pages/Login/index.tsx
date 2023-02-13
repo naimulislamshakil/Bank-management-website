@@ -1,10 +1,16 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import '../../Styles/common.css';
 import { useFormik } from 'formik';
 import { singInSchema } from '../../Config/Schema/SingIn';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootStore } from '../../Redux/store';
+import { LoginAction } from '../../Redux/Action';
+import Loading from '../../Components/Loading';
+import errorMessage from '../../Utils/errorMessage';
+import successMessage from '../../Utils/successMessage';
 
 const initialFromValues = {
 	email: '',
@@ -14,18 +20,49 @@ const initialFromValues = {
 const index = () => {
 	// eslint-disable-next-line react-hooks/rules-of-hooks
 	const [Visibility, setVisibility] = useState(true);
+	// eslint-disable-next-line react-hooks/rules-of-hooks
+	const dispatch = useDispatch();
+	// eslint-disable-next-line react-hooks/rules-of-hooks
+	const { loading, error, message } = useSelector(
+		(state: RootStore) => state.LoginUsers
+	);
+
+	// eslint-disable-next-line react-hooks/rules-of-hooks
+	const navigator = useNavigate();
 
 	// from validation using formik
-
 	const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
 		// eslint-disable-next-line react-hooks/rules-of-hooks
 		useFormik({
 			initialValues: initialFromValues,
 			validationSchema: singInSchema,
 			onSubmit: (values) => {
-				console.log(values);
+				const user = {
+					email: values.email,
+					password: values.password,
+				};
+				dispatch(LoginAction(user));
 			},
 		});
+
+	if (error) {
+		errorMessage(error);
+	}
+
+	if (message) {
+		const token = message?.token;
+		const user = message?.user;
+
+		// SAVE TOKEN AND USR IN LOCAL STORAGE
+		localStorage.setItem('user', JSON.stringify(user));
+		localStorage.setItem('token', JSON.stringify(token));
+
+		successMessage(message?.message);
+		navigator('/dashboard');
+	}
+	if (loading) {
+		return <Loading />;
+	}
 	return (
 		<>
 			<div className="relative flex flex-col justify-center min-h-screen overflow-hidden">
