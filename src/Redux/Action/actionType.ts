@@ -8,6 +8,11 @@ export type Register_User = {
 	status: string;
 	message: string;
 };
+export type UserDetils = {
+	name: string;
+	email: string;
+	password: string;
+};
 
 export interface CreateAUserLoading {
 	type: typeof USER_LOADING;

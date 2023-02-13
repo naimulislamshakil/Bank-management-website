@@ -4,6 +4,9 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { useFormik } from 'formik';
 import { registerSchema } from '../../Config/Schema/Register';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootStore } from '../../Redux/store';
+import { CraeteAUserAction } from '../../Redux/Action';
 
 const initialFromValues = {
 	name: '',
@@ -13,6 +16,13 @@ const initialFromValues = {
 };
 
 const index = () => {
+	// eslint-disable-next-line react-hooks/rules-of-hooks
+	const dispatch = useDispatch();
+	// eslint-disable-next-line react-hooks/rules-of-hooks
+	const { loading, error, message } = useSelector(
+		(state: RootStore) => state.CreateAUsers
+	);
+
 	// eslint-disable-next-line react-hooks/rules-of-hooks
 	const [Visibility, setVisibility] = useState(true);
 	// eslint-disable-next-line react-hooks/rules-of-hooks
@@ -24,7 +34,15 @@ const index = () => {
 			initialValues: initialFromValues,
 			validationSchema: registerSchema,
 			onSubmit: (values) => {
-				console.log(values);
+				if (values.password === values.repassword) {
+					const user = {
+						name: values.name,
+						email: values.email,
+						password: values.password,
+					};
+
+					dispatch(CraeteAUserAction(user));
+				}
 			},
 		});
 

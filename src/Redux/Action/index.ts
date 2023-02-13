@@ -2,6 +2,7 @@ import axios from 'axios';
 import { Dispatch } from 'redux';
 import {
 	CreateAUserDispatchType,
+	UserDetils,
 	USER_FAIL,
 	USER_LOADING,
 	USER_SUCCESS,
@@ -9,13 +10,16 @@ import {
 
 // create a user/Register
 export const CraeteAUserAction =
-	() => async (dispatch: Dispatch<CreateAUserDispatchType>) => {
+	(data: UserDetils) => async (dispatch: Dispatch<CreateAUserDispatchType>) => {
 		try {
 			dispatch({
 				type: USER_LOADING,
 			});
 
-			const res = await axios.get('');
+			const res = await axios.post(
+				'http://localhost:5000/api/v1/register/',
+				data
+			);
 
 			dispatch({
 				type: USER_SUCCESS,
