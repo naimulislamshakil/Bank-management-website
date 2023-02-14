@@ -51,10 +51,8 @@ const index = () => {
 
 	if (message) {
 		const token = message?.token;
-		const user = message?.user;
 
 		// SAVE TOKEN AND USR IN LOCAL STORAGE
-		localStorage.setItem('user', JSON.stringify(user));
 		localStorage.setItem('token', JSON.stringify(token));
 
 		successMessage(message?.message);

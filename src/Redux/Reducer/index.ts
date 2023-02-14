@@ -1,6 +1,8 @@
 import {
 	CreateAUserDispatchType,
 	LoginDispatchType,
+	LoginParsistenceDispatchType,
+	Login_Parsistence_User,
 	Login_User,
 	Register_User,
 	USER_FAIL,
@@ -8,6 +10,9 @@ import {
 	USER_LOGIN_FAIL,
 	USER_LOGIN_LOADING,
 	USER_LOGIN_SUCCESS,
+	USER_PARSISTENCE_FAIL,
+	USER_PARSISTENCE_LOADING,
+	USER_PARSISTENCE_SUCCESS,
 	USER_SUCCESS,
 } from '../Action/actionType';
 
@@ -78,6 +83,45 @@ export const LoginReducer = (
 				error: action.payload,
 			};
 		case USER_LOGIN_SUCCESS:
+			return {
+				loading: false,
+				error: null,
+				message: action.payload,
+			};
+
+		default:
+			return state;
+	}
+};
+
+// LOGIN PARSISTENCE
+interface DefaultStateLoginParsistence {
+	loading: boolean;
+	message?: Login_Parsistence_User;
+	error: null | any;
+}
+
+const initialStateLoginParsistence: DefaultStateLoginParsistence = {
+	loading: false,
+	error: null,
+};
+
+export const LoginParsistenceReducer = (
+	state: DefaultStateLoginParsistence = initialStateLoginParsistence,
+	action: LoginParsistenceDispatchType
+): DefaultStateLoginParsistence => {
+	switch (action.type) {
+		case USER_PARSISTENCE_LOADING:
+			return {
+				loading: true,
+				error: null,
+			};
+		case USER_PARSISTENCE_FAIL:
+			return {
+				loading: false,
+				error: action.payload,
+			};
+		case USER_PARSISTENCE_SUCCESS:
 			return {
 				loading: false,
 				error: null,

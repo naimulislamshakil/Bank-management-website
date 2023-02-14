@@ -3,6 +3,7 @@ import { Dispatch } from 'redux';
 import {
 	CreateAUserDispatchType,
 	LoginDispatchType,
+	LoginParsistenceDispatchType,
 	UserDetils,
 	UserDetilsLogin,
 	USER_FAIL,
@@ -10,6 +11,9 @@ import {
 	USER_LOGIN_FAIL,
 	USER_LOGIN_LOADING,
 	USER_LOGIN_SUCCESS,
+	USER_PARSISTENCE_FAIL,
+	USER_PARSISTENCE_LOADING,
+	USER_PARSISTENCE_SUCCESS,
 	USER_SUCCESS,
 } from '../Action/actionType';
 
@@ -58,6 +62,38 @@ export const LoginAction =
 		} catch (error: any) {
 			dispatch({
 				type: USER_LOGIN_FAIL,
+				payload: error?.message,
+			});
+		}
+	};
+
+// LOGIN PARSISTENCE
+export const LoginParsistenceAction =
+	() => async (dispatch: Dispatch<LoginParsistenceDispatchType>) => {
+		try {
+			dispatch({
+				type: USER_PARSISTENCE_LOADING,
+			});
+
+			const res = await axios.get(
+				'http://localhost:5000/api/v1/register/user_persistence',
+				{
+					method: 'GET',
+					headers: {
+						Authorization: `Bearer ${JSON.parse(
+							localStorage.getItem('token')!
+						)}`,
+					},
+				}
+			);
+
+			dispatch({
+				type: USER_PARSISTENCE_SUCCESS,
+				payload: res.data,
+			});
+		} catch (error: any) {
+			dispatch({
+				type: USER_PARSISTENCE_FAIL,
 				payload: error?.message,
 			});
 		}

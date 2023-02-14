@@ -8,6 +8,11 @@ export const USER_LOGIN_LOADING = 'USER_LOGIN_LOADING';
 export const USER_LOGIN_FAIL = 'USER_LOGIN_FAIL';
 export const USER_LOGIN_SUCCESS = 'USER_LOGIN_SUCCESS';
 
+// LOGIN PARSISTENCE
+export const USER_PARSISTENCE_LOADING = 'USER_PARSISTENCE_LOADING';
+export const USER_PARSISTENCE_FAIL = 'USER_PARSISTENCE_FAIL';
+export const USER_PARSISTENCE_SUCCESS = 'USER_PARSISTENCE_SUCCESS';
+
 // Create a user/Register
 export type Register_User = {
 	status: string;
@@ -40,14 +45,6 @@ export type CreateAUserDispatchType =
 export type Login_User = {
 	status: string;
 	message: string;
-	user: {
-		status: string;
-		role: string;
-		_id: string;
-		name: string;
-		email: string;
-		password: string;
-	};
 	token: string;
 };
 export type UserDetilsLogin = {
@@ -68,3 +65,43 @@ export interface LoginSuccess {
 }
 
 export type LoginDispatchType = LoginFail | LoginLoading | LoginSuccess;
+
+// LOGIN PARSISTENCE
+export type Login_Parsistence_User = {
+	status: string;
+	message: string;
+	user: {
+		status: string;
+		role: string;
+		_id: string;
+		name: string;
+		email: string;
+		address?: {
+			address1: string;
+			address2: string;
+			upazila: string;
+			zila: string;
+			zip: string;
+		};
+		phone?: string;
+		DOB?: Date;
+		gender?: string;
+	};
+};
+
+export interface LoginParsistenceLoading {
+	type: typeof USER_PARSISTENCE_LOADING;
+}
+export interface LoginParsistenceFail {
+	type: typeof USER_PARSISTENCE_FAIL;
+	payload: Register_User;
+}
+export interface LoginParsistenceSuccess {
+	type: typeof USER_PARSISTENCE_SUCCESS;
+	payload: Login_Parsistence_User;
+}
+
+export type LoginParsistenceDispatchType =
+	| LoginParsistenceFail
+	| LoginParsistenceLoading
+	| LoginParsistenceSuccess;

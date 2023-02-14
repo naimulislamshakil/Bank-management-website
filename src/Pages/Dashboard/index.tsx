@@ -1,6 +1,36 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootStore } from '../../Redux/store';
+import { LoginParsistenceAction } from '../../Redux/Action';
+import errorMessage from '../../Utils/errorMessage';
+import Loading from '../../Components/Loading';
 
 const index = () => {
+	// eslint-disable-next-line react-hooks/rules-of-hooks
+	const dispatch = useDispatch();
+	// eslint-disable-next-line react-hooks/rules-of-hooks
+	const { loading, error, message } = useSelector(
+		(state: RootStore) => state.Parsistences
+	);
+
+	// eslint-disable-next-line react-hooks/rules-of-hooks
+	useEffect(() => {
+		dispatch(LoginParsistenceAction());
+	}, [dispatch]);
+
+	if (error) {
+		errorMessage(error);
+	}
+
+	if (message) {
+		const user = message?.user;
+
+		// SAVE TOKEN AND USR IN LOCAL STORAGE
+		localStorage.setItem('user', JSON.stringify(user));
+	}
+	if (loading) {
+		return <Loading />;
+	}
 	return (
 		<>
 			<div className="flex">
