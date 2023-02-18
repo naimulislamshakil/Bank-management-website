@@ -4,10 +4,13 @@ import { RootStore } from '../../Redux/store';
 import { LoginParsistenceAction } from '../../Redux/Action';
 import errorMessage from '../../Utils/errorMessage';
 import Loading from '../../Components/Loading';
+import { useNavigate } from 'react-router-dom';
 
 const index = () => {
 	// eslint-disable-next-line react-hooks/rules-of-hooks
 	const dispatch = useDispatch();
+	// eslint-disable-next-line react-hooks/rules-of-hooks
+	const navigator = useNavigate();
 	// eslint-disable-next-line react-hooks/rules-of-hooks
 	const { loading, error, message } = useSelector(
 		(state: RootStore) => state.Parsistences
@@ -17,6 +20,14 @@ const index = () => {
 	useEffect(() => {
 		dispatch(LoginParsistenceAction());
 	}, [dispatch]);
+
+	// USER SINGOUT
+	const singout = () => {
+		localStorage.removeItem('token');
+		localStorage.removeItem('user');
+		navigator('/login');
+		window.location.reload();
+	};
 
 	if (error) {
 		errorMessage(error);
@@ -135,9 +146,9 @@ const index = () => {
 									</a>
 								</li>
 								<li className="rounded-sm">
-									<a
-										href="#"
-										className="flex items-center p-2 space-x-3 rounded-md"
+									<button
+										onClick={singout}
+										className="btn flex items-center p-2 space-x-3 rounded-md"
 									>
 										<svg
 											xmlns="http://www.w3.org/2000/svg"
@@ -154,7 +165,7 @@ const index = () => {
 											/>
 										</svg>
 										<span>Logout</span>
-									</a>
+									</button>
 								</li>
 							</ul>
 						</div>

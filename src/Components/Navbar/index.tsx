@@ -1,10 +1,35 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Navbar_Item } from '../../Constant/Navbar';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Navbar_Item, Navbar_Item_Login } from '../../Constant/Navbar';
 
 const index = () => {
 	// eslint-disable-next-line react-hooks/rules-of-hooks
 	const [navbar, setNavbar] = useState(false);
+	// eslint-disable-next-line react-hooks/rules-of-hooks
+	const [user, setUser] = useState();
+	// eslint-disable-next-line react-hooks/rules-of-hooks
+	const [token, setToken] = useState('');
+	// eslint-disable-next-line react-hooks/rules-of-hooks
+	const navigator = useNavigate();
+
+	// eslint-disable-next-line react-hooks/rules-of-hooks
+	useEffect(() => {
+		if (localStorage.getItem('user') && localStorage.getItem('token')) {
+			const token = localStorage.getItem('token')!;
+			const user = JSON.parse(window.localStorage.getItem('user')!);
+			setUser(user);
+			setToken(token);
+		}
+	}, []);
+
+	// USER SINGOUT
+	const singout = () => {
+		localStorage.removeItem('token');
+		localStorage.removeItem('user');
+		navigator('/login');
+		window.location.reload();
+	};
+
 	return (
 		<>
 			<nav className="w-full bg-white shadow">
@@ -59,14 +84,36 @@ const index = () => {
 							}`}
 						>
 							<ul className="items-center justify-center space-y-8 md:flex md:space-x-6 md:space-y-0">
-								{Navbar_Item.map((item, index) => (
-									<li
-										key={index}
-										className="p-3 text-gray-600 hover:text-blue-600"
+								{token
+									? Navbar_Item_Login.map((item, index) => (
+											<li
+												key={index}
+												className="p-3 mx-auto  text-gray-600 hover:text-blue-600"
+											>
+												<Link className="p-3" to={item.route}>
+													{item.text}
+												</Link>
+											</li>
+									  ))
+									: Navbar_Item.map((item, index) => (
+											<li
+												key={index}
+												className="mx-auto p-3 text-gray-600 hover:text-blue-600"
+											>
+												<Link className="p-3" to={item.route}>
+													{item.text}
+												</Link>
+											</li>
+									  ))}
+
+								{user && token ? (
+									<button
+										onClick={singout}
+										className="mx-auto btn p-3 text-gray-600 hover:text-blue-600"
 									>
-										<Link to={item.route}>{item.text}</Link>
-									</li>
-								))}
+										SingOut
+									</button>
+								) : null}
 							</ul>
 						</div>
 					</div>

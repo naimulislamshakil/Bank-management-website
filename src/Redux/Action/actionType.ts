@@ -45,6 +45,24 @@ export type CreateAUserDispatchType =
 export type Login_User = {
 	status: string;
 	message: string;
+	user: {
+		status: string;
+		role: string;
+		_id: string;
+		name: string;
+		email: string;
+		address?: {
+			address1: string;
+			address2: string;
+			upazila: string;
+			zila: string;
+			zip: string;
+		};
+		phone?: string;
+		DOB?: Date;
+		gender?: string;
+	};
+
 	token: string;
 };
 export type UserDetilsLogin = {

@@ -1,21 +1,19 @@
 export const Navbar_Item = [
 	{
 		id: 1,
-		text: 'Home',
-		route: '/',
-	},
-	{
-		id: 2,
 		text: 'LogIn',
 		route: '/login',
 	},
 	{
-		id: 3,
+		id: 2,
 		text: 'Register',
 		route: '/register',
 	},
+];
+
+export const Navbar_Item_Login = [
 	{
-		id: 4,
+		id: 1,
 		text: 'Dashboard',
 		route: '/dashboard',
 	},

@@ -10,7 +10,6 @@ import { RootStore } from '../../Redux/store';
 import { LoginAction } from '../../Redux/Action';
 import Loading from '../../Components/Loading';
 import errorMessage from '../../Utils/errorMessage';
-import successMessage from '../../Utils/successMessage';
 
 const initialFromValues = {
 	email: '',
@@ -49,14 +48,16 @@ const index = () => {
 		errorMessage(error);
 	}
 
-	if (message) {
+	if (message?.status === 'Success') {
 		const token = message?.token;
+		const user = message?.user;
 
 		// SAVE TOKEN AND USR IN LOCAL STORAGE
 		localStorage.setItem('token', JSON.stringify(token));
+		localStorage.setItem('user', JSON.stringify(user));
 
-		successMessage(message?.message);
 		navigator('/dashboard');
+		window.location.reload();
 	}
 	if (loading) {
 		return <Loading />;

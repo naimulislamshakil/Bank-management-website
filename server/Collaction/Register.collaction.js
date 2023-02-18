@@ -56,6 +56,7 @@ exports.logInUserCollaction = async (req, res) => {
 		res.status(200).json({
 			status: 'Success',
 			message: 'User Logins Successfully.',
+			user,
 			token,
 		});
 	} catch (error) {
