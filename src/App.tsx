@@ -6,8 +6,12 @@ import Dashboard from './Pages/Dashboard';
 import Navbar from './Components/Navbar';
 import Register from './Pages/Register';
 import Welcome from './Pages/Welcome';
+import NotFound from './Pages/NotFound';
+import CreateAAccount from './Pages/CreateAAccount';
+import DashHomepage from './Pages/Dash_Homepage';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import RequireAuth from './Components/RequireAuth';
 
 function App() {
 	return (
@@ -17,7 +21,21 @@ function App() {
 				<Route path="/" element={<Welcome />} />
 				<Route path="/register" element={<Register />} />
 				<Route path="/login" element={<Login />} />
-				<Route path="/dashboard" element={<Dashboard />} />
+				<Route
+					path="/dashboard"
+					element={
+						<RequireAuth>
+							<Dashboard />
+						</RequireAuth>
+					}
+				>
+					<Route index element={<DashHomepage />} />
+					<Route
+						path="/dashboard/create_a_account"
+						element={<CreateAAccount />}
+					/>
+				</Route>
+				<Route path="*" element={<NotFound />} />
 			</Routes>
 			<ToastContainer />
 		</div>
