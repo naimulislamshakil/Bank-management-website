@@ -1,48 +1,8 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootStore } from '../../Redux/store';
-import { LoginParsistenceAction } from '../../Redux/Action';
-import errorMessage from '../../Utils/errorMessage';
-import Loading from '../../Components/Loading';
-import { Link, Outlet, useNavigate } from 'react-router-dom';
+import React from 'react';
+import { Link, Outlet } from 'react-router-dom';
 import dashboard_Navbar from '../../Constant/Dashboard_Navbar';
 
 const index = () => {
-	// eslint-disable-next-line react-hooks/rules-of-hooks
-	const dispatch = useDispatch();
-	// eslint-disable-next-line react-hooks/rules-of-hooks
-	const navigator = useNavigate();
-	// eslint-disable-next-line react-hooks/rules-of-hooks
-	const { loading, error, message } = useSelector(
-		(state: RootStore) => state.Parsistences
-	);
-
-	// eslint-disable-next-line react-hooks/rules-of-hooks
-	useEffect(() => {
-		dispatch(LoginParsistenceAction());
-	}, [dispatch]);
-
-	// USER SINGOUT
-	// const singout = () => {
-	// 	localStorage.removeItem('token');
-	// 	localStorage.removeItem('user');
-	// 	navigator('/login');
-	// 	window.location.reload();
-	// };
-
-	if (error) {
-		errorMessage(error);
-	}
-
-	if (message) {
-		const user = message?.user;
-
-		// SAVE TOKEN AND USR IN LOCAL STORAGE
-		localStorage.setItem('user', JSON.stringify(user));
-	}
-	if (loading) {
-		return <Loading />;
-	}
 	return (
 		<>
 			<div className="flex">

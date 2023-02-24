@@ -8,6 +8,7 @@ const RequireAuth = ({ children }: any) => {
 	const user = JSON.parse(localStorage.getItem('user')!);
 
 	if (!token && !user) {
+		console.log('jhddsdjsh');
 		return <Navigate to="/login" state={{ from: location }} replace />;
 	}
 
