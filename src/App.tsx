@@ -24,7 +24,7 @@ function App() {
 	// eslint-disable-next-line react-hooks/rules-of-hooks
 	const navigator = useNavigate();
 	// eslint-disable-next-line react-hooks/rules-of-hooks
-	const { loading, error, message } = useSelector(
+	const { loading, message } = useSelector(
 		(state: RootStore) => state.Parsistences
 	);
 
@@ -32,21 +32,6 @@ function App() {
 	useEffect(() => {
 		dispatch(LoginParsistenceAction());
 	}, [dispatch]);
-
-	// USER SINGOUT
-	// const singout = () => {
-	// 	localStorage.removeItem('token');
-	// 	localStorage.removeItem('user');
-	// 	navigator('/login');
-	// 	window.location.reload();
-	// };
-
-	if (error) {
-		// errorMessage(error);
-		localStorage.removeItem('token');
-		localStorage.removeItem('user');
-		navigator('/login');
-	}
 
 	if (message) {
 		const user = message?.user;
@@ -57,6 +42,7 @@ function App() {
 	if (loading) {
 		return <Loading />;
 	}
+
 	return (
 		<div className="container mx-auto">
 			<Navbar />
